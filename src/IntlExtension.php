@@ -13,6 +13,7 @@ namespace Twig\Extra\Intl;
 
 use Symfony\Component\Intl\Countries;
 use Symfony\Component\Intl\Currencies;
+use Symfony\Component\Intl\Exception\MissingResourceException;
 use Symfony\Component\Intl\Languages;
 use Symfony\Component\Intl\Locales;
 use Symfony\Component\Intl\Timezones;
@@ -171,7 +172,11 @@ final class IntlExtension extends AbstractExtension
 
     public function getLanguageName(string $language, string $locale = null): string
     {
-        return Languages::getName($language, $locale);
+        try {
+            return Languages::getName($language, $locale);
+        } catch (MissingResourceException $exception) {
+            return $language;
+        }
     }
 
     public function getLocaleName(string $data, string $locale = null): string
