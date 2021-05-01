@@ -31,6 +31,17 @@ final class IntlExtension extends AbstractExtension
         'medium' => \IntlDateFormatter::MEDIUM,
         'long' => \IntlDateFormatter::LONG,
         'full' => \IntlDateFormatter::FULL,
+        'relative_short' => \IntlDateFormatter::RELATIVE_SHORT,
+        'relative_medium' => \IntlDateFormatter::RELATIVE_MEDIUM,
+        'relative_long' => \IntlDateFormatter::RELATIVE_LONG,
+        'relative_full' => \IntlDateFormatter::RELATIVE_FULL,
+    ];
+    private const TIME_FORMATS = [
+        'none' => \IntlDateFormatter::NONE,
+        'short' => \IntlDateFormatter::SHORT,
+        'medium' => \IntlDateFormatter::MEDIUM,
+        'long' => \IntlDateFormatter::LONG,
+        'full' => \IntlDateFormatter::FULL,
     ];
     private const NUMBER_TYPES = [
         'default' => \NumberFormatter::TYPE_DEFAULT,
@@ -313,8 +324,8 @@ final class IntlExtension extends AbstractExtension
             throw new RuntimeError(sprintf('The date format "%s" does not exist, known formats are: "%s".', $dateFormat, implode('", "', array_keys(self::DATE_FORMATS))));
         }
 
-        if (null !== $timeFormat && !isset(self::DATE_FORMATS[$timeFormat])) {
-            throw new RuntimeError(sprintf('The time format "%s" does not exist, known formats are: "%s".', $timeFormat, implode('", "', array_keys(self::DATE_FORMATS))));
+        if (null !== $timeFormat && !isset(self::TIME_FORMATS[$timeFormat])) {
+            throw new RuntimeError(sprintf('The time format "%s" does not exist, known formats are: "%s".', $timeFormat, implode('", "', array_keys(self::TIME_FORMATS))));
         }
 
         if (null === $locale) {
@@ -324,7 +335,7 @@ final class IntlExtension extends AbstractExtension
         $calendar = 'gregorian' === $calendar ? \IntlDateFormatter::GREGORIAN : \IntlDateFormatter::TRADITIONAL;
 
         $dateFormatValue = self::DATE_FORMATS[$dateFormat] ?? null;
-        $timeFormatValue = self::DATE_FORMATS[$timeFormat] ?? null;
+        $timeFormatValue = self::TIME_FORMATS[$timeFormat] ?? null;
 
         if ($this->dateFormatterPrototype) {
             $dateFormatValue = $dateFormatValue ?: $this->dateFormatterPrototype->getDateType();
