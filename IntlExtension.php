@@ -280,7 +280,7 @@ final class IntlExtension extends AbstractExtension
     public function formatDateTime(Environment $env, $date, ?string $dateFormat = 'medium', ?string $timeFormat = 'medium', string $pattern = '', $timezone = null, string $calendar = 'gregorian', string $locale = null): string
     {
         $date = \twig_date_converter($env, $date, $timezone);
-        $formatter = $this->createDateFormatter($locale, $dateFormat, $timeFormat, $pattern, $date->getTimezone(), $calendar);
+        $formatter = $this->createDateFormatter($locale, $dateFormat, $timeFormat, $pattern, $timezone, $calendar);
 
         if (false === $ret = $formatter->format($date)) {
             throw new RuntimeError('Unable to format the given date.');
@@ -307,7 +307,7 @@ final class IntlExtension extends AbstractExtension
         return $this->formatDateTime($env, $date, 'none', $timeFormat, $pattern, $timezone, $calendar, $locale);
     }
 
-    private function createDateFormatter(?string $locale, ?string $dateFormat, ?string $timeFormat, string $pattern, \DateTimeZone $timezone, string $calendar): \IntlDateFormatter
+    private function createDateFormatter(?string $locale, ?string $dateFormat, ?string $timeFormat, string $pattern, ?\DateTimeZone $timezone, string $calendar): \IntlDateFormatter
     {
         if (null !== $dateFormat && !isset(self::DATE_FORMATS[$dateFormat])) {
             throw new RuntimeError(sprintf('The date format "%s" does not exist, known formats are: "%s".', $dateFormat, implode('", "', array_keys(self::DATE_FORMATS))));
@@ -329,7 +329,7 @@ final class IntlExtension extends AbstractExtension
         if ($this->dateFormatterPrototype) {
             $dateFormatValue = $dateFormatValue ?: $this->dateFormatterPrototype->getDateType();
             $timeFormatValue = $timeFormatValue ?: $this->dateFormatterPrototype->getTimeType();
-            $timezone = $timezone ?: $this->dateFormatterPrototype->getTimeZone();
+            $timezone = $timezone ?: $this->dateFormatterPrototype->getTimeZone()->toDateTimeZone();
             $calendar = $calendar ?: $this->dateFormatterPrototype->getCalendar();
             $pattern = $pattern ?: $this->dateFormatterPrototype->getPattern();
         }
