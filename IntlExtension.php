@@ -329,7 +329,7 @@ final class IntlExtension extends AbstractExtension
         if ($this->dateFormatterPrototype) {
             $dateFormatValue = $dateFormatValue ?: $this->dateFormatterPrototype->getDateType();
             $timeFormatValue = $timeFormatValue ?: $this->dateFormatterPrototype->getTimeType();
-            $timezone = $timezone ?: $this->dateFormatterPrototype->getTimeType();
+            $timezone = $timezone ?: $this->dateFormatterPrototype->getTimeZone();
             $calendar = $calendar ?: $this->dateFormatterPrototype->getCalendar();
             $pattern = $pattern ?: $this->dateFormatterPrototype->getPattern();
         }
