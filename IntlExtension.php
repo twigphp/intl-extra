@@ -198,6 +198,9 @@ final class IntlExtension extends AbstractExtension
         }
 
         try {
+            if(mb_strlen($country) == 3) {
+                return Countries::getAlpha3Name($country);
+            }
             return Countries::getName($country, $locale);
         } catch (MissingResourceException $exception) {
             return $country;
