@@ -28,3 +28,9 @@ This package is a Twig extension that provides the following:
 [10]: https://twig.symfony.com/format_datetime
 [11]: https://twig.symfony.com/format_date
 [12]: https://twig.symfony.com/format_time
+
+To integrate this library into symfony framework, go to services.yaml and add the following:
+
+services:
+  ...
+  Twig\Extra\Intl\IntlExtension: ~
